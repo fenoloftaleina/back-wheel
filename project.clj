@@ -9,6 +9,7 @@
                  [bidi "2.1.2"]
                  [clj-http "3.7.0"]
                  [cheshire "5.8.0"]]
+  :main back-wheel.main
   :profiles {:dev {:dependencies [[org.clojure/tools.namespace "0.2.11"]
                                   [com.stuartsierra/component.repl "0.2.0"]]
                    :source-paths ["dev"]}})
