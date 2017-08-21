@@ -6,14 +6,24 @@
 
 (defn json-endpoint
   ([methods-map]
-   (json-endpoint {} methods-map))
-  ([resource-details methods-map]
-   (yada
-     (yada/resource
-       (merge
-         json-resource-template
-         resource-details
-         {:methods methods-map})))))
+   (json-endpoint methods-map {}))
+  ([methods-map resource-map]
+   (yada/resource
+     (merge
+       json-resource-template
+       resource-map
+       {:methods methods-map}))))
 
 (defn with-get-method [handler]
   {:get {:response handler}})
+
+(def proper-role :authorized-because-authenticated)
+
+(def secret-secret
+  {:access-control
+   {:scheme "Basic"
+    :verify (fn [[user pass]]
+              ;; Let anyone who's brave enough to try any password in.
+              (when (not (empty? pass))
+                {:roles #{proper-role}}))
+    :authorization {:methods {:get proper-role}}}})
