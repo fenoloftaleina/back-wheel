@@ -1,17 +1,20 @@
 (ns back-wheel.components.api
   (:require
     [bidi.bidi :as bidi]
-    [yada.yada :refer [yada] :as yada]))
-
-(defn- api-index-resource []
-  (yada/resource
-    {:properties {}
-     :produces {:media-type "application/json"}
-     :methods
-     {:get {:response (fn [ctx] {:asdf "fdsa"})}}}))
+    [back-wheel.utils.core :refer [json-endpoint with-get-method]]
+    [back-wheel.services bike-stations random-secret]))
 
 (defn- api []
-  ["" [["/api" (yada (api-index-resource))]]])
+  [""
+   [["/bike-stations"
+        (-> back-wheel.services.bike-stations/call
+            (with-get-method)
+            (json-endpoint))]
+
+    ["/random-secret"
+     (-> back-wheel.services.random-secret/call
+         (with-get-method)
+         (json-endpoint))]]])
 
 (defrecord ApiComponent []
   bidi/RouteProvider
