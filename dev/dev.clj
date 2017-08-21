@@ -28,7 +28,7 @@
 (defn dev-system
   "Constructs a system map suitable for interactive development."
   []
-  (back-wheel.main/new-app
+  (back-wheel.main/app
     {:port 8899}))
 
 (set-init (fn [_] (dev-system)))
