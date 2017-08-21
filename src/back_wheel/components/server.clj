@@ -6,7 +6,7 @@
     [com.stuartsierra.component :refer [using Lifecycle]]
     [yada.yada :refer [yada] :as yada]))
 
-(defn create-routes [api port]
+(defn- create-routes [api port]
   ["" [(bidi/routes api)
        [true (yada nil)]]])
 
