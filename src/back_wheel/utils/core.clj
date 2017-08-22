@@ -6,7 +6,11 @@
    :access-control {}})
 
 (defn- cors [resource-map]
-  (assoc-in resource-map [:access-control :allow-origin] "*"))
+  (merge-with
+    merge
+    resource-map
+    {:access-control {:allow-origin "*"
+                      :allow-headers ["Authorization"]}}))
 
 (defn json-endpoint
   ([methods-map]
