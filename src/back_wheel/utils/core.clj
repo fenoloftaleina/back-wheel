@@ -2,17 +2,23 @@
   (:require [yada.yada :refer [yada] :as yada]))
 
 (def json-resource-template
-  {:produces {:media-type "application/json"}})
+  {:produces {:media-type "application/json"}
+   :access-control {}})
+
+(defn- cors [resource-map]
+  (assoc-in resource-map [:access-control :allow-origin] "*"))
 
 (defn json-endpoint
   ([methods-map]
    (json-endpoint methods-map {}))
   ([methods-map resource-map]
-   (yada/resource
+   (->
      (merge
        json-resource-template
        resource-map
-       {:methods methods-map}))))
+       {:methods methods-map})
+     (cors)
+     (yada/resource))))
 
 (defn with-get-method [handler]
   {:get {:response handler}})
